@@ -4,13 +4,14 @@ body {
   max-width: 900px;
   margin: 28px auto;
   padding: 0 18px;
-  font-size: 22px;
-  background: #2f6f3e; /* golf green */
+  font-size: 33px;            /* 1.5x */
+  font-weight: bold;          /* all bold */
+  background: #2f6f3e;        /* golf green */
 }
 
 /* Title */
 h1 {
-  font-size: 42px;
+  font-size: 63px;            /* 1.5x */
   margin: 0 0 18px 0;
   letter-spacing: 0.6px;
   color: #ffffff;
@@ -26,10 +27,10 @@ h1 {
   box-shadow: 0 2px 10px rgba(0,0,0,0.20);
 }
 
-/* One row per field, with a line under each */
+/* Rows with divider lines */
 #club-info p {
   margin: 0;
-  padding: 18px 20px;
+  padding: 24px 26px;
   display: flex;
   align-items: center;
   border-bottom: 2px solid #1f1f1f;
@@ -41,32 +42,39 @@ h1 {
 
 /* Label column */
 #club-info strong {
-  width: 260px;
-  flex: 0 0 260px;
+  width: 300px;
+  flex: 0 0 300px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 18px;
+  font-size: 27px;            /* 1.5x */
+  font-weight: bold;
   color: #1a1a1a;
 }
 
 /* Value column */
 #club-info span {
-  font-size: 28px;
-  padding-left: 3ch; /* about 3 spaces */
+  font-size: 42px;            /* 1.5x */
+  padding-left: 3ch;
+  font-weight: bold;
   color: #111111;
 }
 
-/* Button */
+/* Edit button */
 button {
-  font-size: 26px;
-  padding: 16px 26px;
+  font-size: 39px;            /* 1.5x */
+  font-weight: bold;
+  padding: 22px 34px;
   border-radius: 16px;
   border: 2px solid #1f1f1f;
   background: #ffffff;
   cursor: pointer;
 }
 
-button:active {
-  transform: translateY(1px);
+/* Footer */
+#footer {
+  margin-top: 24px;
+  text-align: right;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
 }
-
