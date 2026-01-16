@@ -1,6 +1,8 @@
 const params = new URLSearchParams(window.location.search);
-const clubId = params.get("club") || "default";
+const fromQuery = params.get("club");
+const fromHash = (window.location.hash || "").replace("#", "").trim();
 
+const clubId = fromQuery || fromHash || "default";
 const dataKey = "club_" + clubId;
 
 const data = JSON.parse(localStorage.getItem(dataKey)) || {};
@@ -18,4 +20,3 @@ document.getElementById("editBtn").onclick = () => {
   localStorage.setItem(dataKey, JSON.stringify(newData));
   location.reload();
 };
-
