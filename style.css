@@ -1,1 +1,26 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#club-info {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+button {
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  cursor: pointer;
+}
 
