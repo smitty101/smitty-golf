@@ -1,64 +1,66 @@
+/* Page background (golf green) */
 body {
   font-family: Arial, sans-serif;
-  max-width: 820px;
+  max-width: 900px;
   margin: 28px auto;
-  padding: 0 16px;
-  font-size: 18px;
-  background: #f6f6f3;
+  padding: 0 18px;
+  font-size: 22px;
+  background: #2f6f3e; /* golf green */
 }
 
+/* Title */
 h1 {
-  font-size: 30px;
-  margin: 0 0 14px 0;
-  letter-spacing: 0.5px;
+  font-size: 42px;
+  margin: 0 0 18px 0;
+  letter-spacing: 0.6px;
+  color: #ffffff;
 }
 
+/* White scorecard */
 #club-info {
-  background: #2f6f3e;
+  background: #ffffff;
   border: 2px solid #1f1f1f;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  margin: 16px 0 18px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  margin: 18px 0 22px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.20);
 }
 
-/* Scorecard rows */
+/* One row per field, with a line under each */
 #club-info p {
   margin: 0;
-  padding: 14px 16px;
+  padding: 18px 20px;
   display: flex;
-  gap: 12px;
   align-items: center;
-  border-top: 1px solid #1f1f1f;
+  border-bottom: 2px solid #1f1f1f;
 }
 
-#club-info p:first-child {
-  border-top: none;
+#club-info p:last-child {
+  border-bottom: none;
 }
 
-/* Label column like a scorecard header */
+/* Label column */
 #club-info strong {
-  width: 190px;
-  flex: 0 0 190px;
+  width: 260px;
+  flex: 0 0 260px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  font-size: 14px;
+  letter-spacing: 1px;
+  font-size: 18px;
+  color: #1a1a1a;
 }
 
 /* Value column */
 #club-info span {
-  font-size: 20px;
+  font-size: 28px;
+  padding-left: 3ch; /* about 3 spaces */
+  color: #111111;
 }
 
-/* Subtle alternating rows */
-#club-info p:nth-child(odd) {
-  background: #fbfbf8;
-}
-
+/* Button */
 button {
-  font-size: 20px;
-  padding: 14px 20px;
-  border-radius: 14px;
+  font-size: 26px;
+  padding: 16px 26px;
+  border-radius: 16px;
   border: 2px solid #1f1f1f;
   background: #ffffff;
   cursor: pointer;
