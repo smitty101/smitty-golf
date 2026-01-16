@@ -1,0 +1,10 @@
+NFC Golf (smitty-golf)
+Copyright (c) 2026 Smitty
+
+Source code and branding are provided under the LICENSE
+included in this repository.
+
+Commercial use, resale, or redistribution without
+complying with the LICENSE is prohibited.
+
+Contact the author for commercial licensing.
