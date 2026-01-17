@@ -1,5 +1,4 @@
-/* NFC Golf — phone-first, responsive */
-
+/* NFC Golf — green background + scorecard card, mobile friendly */
 * { box-sizing: border-box; }
 
 html, body {
@@ -9,72 +8,133 @@ html, body {
   line-height: 1.35;
 }
 
-body {
+/* GREEN background */
+body{
+  min-height: 100vh;
   padding: 14px;
+  background: #1f6b3a; /* golf green */
 }
 
-/* Keep content readable on desktop but not huge on phone */
-#club-info {
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-h1 {
-  max-width: 640px;
+/* Title */
+h1{
+  max-width: 720px;
   margin: 0 auto 12px auto;
   font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  letter-spacing: .5px;
 }
 
-p {
-  margin: 10px 0;
+/* SCORECARD */
+#club-info{
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,.35);
+}
+
+/* Each row like a scorecard line */
+#club-info p{
+  margin: 0;
+  padding: 14px 14px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 10px;
+  border-bottom: 1px solid #e6e6e6;
   font-size: 16px;
 }
 
-/* Notes box */
-.notes-box {
-  margin-top: 12px;
+/* Label */
+#club-info p strong{
+  font-weight: 800;
+  color: #1b1b1b;
 }
 
-.notes-content {
-  margin-top: 8px;
+/* Value */
+#club-info p span{
+  color: #0f172a;
+  font-weight: 700;
+  text-align: right;         /* makes answers line up */
+  word-break: break-word;
+}
+
+/* Notes block */
+.notes-box{
+  padding: 14px 14px 16px 14px;
+}
+
+.notes-box strong{
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.notes-content{
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  min-height: 90px;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  min-height: 110px;
   white-space: pre-wrap;
   word-wrap: break-word;
   font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  background: #fbfbfb;
 }
 
-/* Edit button */
-#editBtn {
+/* EDIT button */
+#editBtn{
   display: block;
   width: 100%;
-  max-width: 640px;
+  max-width: 720px;
   margin: 14px auto 0 auto;
   padding: 14px 16px;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 900;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 10px 24px rgba(0,0,0,.20);
   cursor: pointer;
 }
 
 /* Footer */
-#footer {
-  max-width: 640px;
-  margin: 18px auto 0 auto;
-  opacity: 0.7;
+#footer{
+  max-width: 720px;
+  margin: 14px auto 0 auto;
+  color: rgba(255,255,255,.85);
   font-size: 14px;
   text-align: center;
 }
 
 /* Small phones */
-@media (max-width: 360px) {
-  body { padding: 10px; }
-  h1 { font-size: 20px; }
-  p, .notes-content { font-size: 15px; }
-  #editBtn { font-size: 17px; }
+@media (max-width: 420px){
+  body{ padding: 10px; }
+  h1{ font-size: 20px; }
+
+  #club-info p{
+    grid-template-columns: 130px 1fr;
+    font-size: 15px;
+    padding: 12px 12px;
+  }
+  .notes-content{ font-size: 15px; }
+  #editBtn{ font-size: 17px; }
+}
+
+/* Very small phones: stack label/value */
+@media (max-width: 330px){
+  #club-info p{
+    grid-template-columns: 1fr;
+  }
+  #club-info p span{
+    text-align: left;
+    opacity: .9;
+  }
 }
 
