@@ -23,45 +23,64 @@
     </div>
   </div>
 
-  <!-- EDIT BUTTON (required) -->
   <button id="editBtn">Edit</button>
 
   <div id="footer">Smitty built</div>
 
-  <!-- GitHub READ (shows same data on every phone) -->
-  <script>
-    window.addEventListener("load", () => {
-      const params = new URLSearchParams(window.location.search);
-      const clubId = params.get("club");
-      if (!clubId) return;
-
-      const url = `https://smitty101.github.io/smitty-golf/data/club-${clubId}.json`;
-
-      fetch(url, { cache: "no-store" })
-        .then(r => {
-          if (!r.ok) throw new Error("Data file not found");
-          return r.json();
-        })
-        .then(d => {
-          document.getElementById("club-brand-model").textContent = d.brandModel || "Not set";
-          document.getElementById("club-type").textContent = d.clubType || "Not set";
-          document.getElementById("club-distance").textContent = d.typicalDistance || "Not set";
-          document.getElementById("club-use").textContent = d.shotUse || "Not set";
-          document.getElementById("club-consistency").textContent = d.consistentSwing || "Not set";
-          document.getElementById("club-notes").textContent = d.swingNotes || "None";
-        })
-        .catch(console.error);
-    });
-  </script>
-
-  <!-- SAVE via Cloudflare Worker (no token in HTML) -->
   <script>
     const WORKER_URL = "https://billowing-bonus-bca7.blessingspoint.workers.dev";
 
-    document.getElementById("editBtn").addEventListener("click", async () => {
+    function setText(id, value, fallback = "Not set") {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = (value && String(value).trim()) ? value : fallback;
+    }
+
+    function render(d) {
+      setText("club-brand-model", d.brandModel, "Not set");
+      setText("club-type", d.clubType, "Not set");
+      setText("club-distance", d.typicalDistance, "Not set");
+      setText("club-use", d.shotUse, "Not set");
+      setText("club-consistency", d.consistentSwing, "Not set");
+      setText("club-notes", d.swingNotes, "None");
+    }
+
+    function getClubId() {
       const params = new URLSearchParams(window.location.search);
-      const clubId = params.get("club");
-      if (!clubId) return alert("Missing club id");
+      const fromQuery = params.get("club");
+      const fromHash = (window.location.hash || "").replace("#", "").trim();
+      return (fromQuery || fromHash || "").trim();
+    }
+
+    async function loadFromWorker(clubId) {
+      // Assumes your worker supports GET /club?clubId=1 (adjust if your route differs)
+      const res = await fetch(`${WORKER_URL}/club?clubId=${encodeURIComponent(clubId)}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(await res.text());
+      return await res.json();
+    }
+
+    window.addEventListener("load", async () => {
+      const clubId = getClubId();
+      if (!clubId) return alert("Missing club id in URL");
+
+      // Optional: show instantly from localStorage while cloud loads
+      const localKey = `club_${clubId}`;
+      const cached = JSON.parse(localStorage.getItem(localKey) || "null");
+      if (cached) render(cached);
+
+      try {
+        const cloud = await loadFromWorker(clubId);
+        render(cloud);
+        localStorage.setItem(localKey, JSON.stringify(cloud));
+      } catch (e) {
+        // If cloud read fails, keep cached display (if any)
+        console.error("Cloud load failed:", e);
+      }
+    });
+
+    document.getElementById("editBtn").addEventListener("click", async () => {
+      const clubId = getClubId();
+      if (!clubId) return alert("Missing club id in URL");
 
       const current = {
         brandModel: document.getElementById("club-brand-model").textContent || "",
@@ -73,14 +92,19 @@
       };
 
       const updated = {
-        brandModel: prompt("Brand / Model", current.brandModel),
-        clubType: prompt("Club type", current.clubType),
-        typicalDistance: prompt("Typical distance", current.typicalDistance),
-        shotUse: prompt("Shot / use", current.shotUse),
-        consistentSwing: prompt("Consistent swing", current.consistentSwing),
-        swingNotes: prompt("Swing notes", current.swingNotes)
+        brandModel: prompt("Brand / Model", current.brandModel) ?? current.brandModel,
+        clubType: prompt("Club type", current.clubType) ?? current.clubType,
+        typicalDistance: prompt("Typical distance", current.typicalDistance) ?? current.typicalDistance,
+        shotUse: prompt("Shot / use", current.shotUse) ?? current.shotUse,
+        consistentSwing: prompt("Consistent swing", current.consistentSwing) ?? current.consistentSwing,
+        swingNotes: prompt("Swing notes", current.swingNotes) ?? current.swingNotes
       };
 
+      // Instant UI + local cache (no delay)
+      render(updated);
+      localStorage.setItem(`club_${clubId}`, JSON.stringify(updated));
+
+      // Cloud save (durable)
       const res = await fetch(`${WORKER_URL}/save`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -89,10 +113,11 @@
 
       if (!res.ok) {
         const t = await res.text();
-        return alert("Save failed:\n" + t);
+        alert("Save failed:\n" + t + "\n\nYour changes are still on this device (local).");
+        return;
       }
 
-      location.reload();
+      // No reload. Done.
     });
   </script>
 
