@@ -1,8 +1,8 @@
 {
-  "brandModel": "",
-  "clubType": "",
-  "typicalDistance": "",
-  "shotUse": "",
-  "consistentSwing": "",
-  "swingNotes": ""
+  "brandModel": "TEST 123",
+  "clubType": "7 Iron",
+  "typicalDistance": "150",
+  "shotUse": "Straight",
+  "consistentSwing": "Yes",
+  "swingNotes": "Test notes"
 }
