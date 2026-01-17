@@ -28,5 +28,23 @@
   <div id="footer">Smitty built</div>
 
   <script src="script.js?v=4"></script>
+  <script>
+const params = new URLSearchParams(window.location.search);
+const clubId = params.get("club");
+
+if (clubId) {
+  fetch(`https://smitty101.github.io/smitty-golf/data/club-${clubId}.json`, { cache: "no-store" })
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("club-brand-model").textContent = d.brandModel || "Not set";
+      document.getElementById("club-type").textContent = d.clubType || "Not set";
+      document.getElementById("club-distance").textContent = d.typicalDistance || "Not set";
+      document.getElementById("club-use").textContent = d.shotUse || "Not set";
+      document.getElementById("club-consistency").textContent = d.consistentSwing || "Not set";
+      document.getElementById("club-notes").textContent = d.swingNotes || "None";
+    });
+}
+</script>
+
 </body>
 </html>
