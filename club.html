@@ -23,9 +23,12 @@
     </div>
   </div>
 
+  <!-- EDIT BUTTON (required) -->
+  <button id="editBtn">Edit</button>
+
   <div id="footer">Smitty built</div>
 
-  <!-- GitHub READ ONLY -->
+  <!-- GitHub READ (shows same data on every phone) -->
   <script>
     window.addEventListener("load", () => {
       const params = new URLSearchParams(window.location.search);
@@ -47,49 +50,51 @@
           document.getElementById("club-consistency").textContent = d.consistentSwing || "Not set";
           document.getElementById("club-notes").textContent = d.swingNotes || "None";
         })
-        .catch(err => console.error(err));
+        .catch(console.error);
     });
   </script>
-<script>
-const WORKER_URL = "https://billowing-bonus-bca7.blessingspoint.workers.dev";
 
-document.getElementById("editBtn")?.addEventListener("click", async () => {
-  const params = new URLSearchParams(window.location.search);
-  const clubId = params.get("club");
-  if (!clubId) return alert("Missing club id");
+  <!-- SAVE via Cloudflare Worker (no token in HTML) -->
+  <script>
+    const WORKER_URL = "https://billowing-bonus-bca7.blessingspoint.workers.dev";
 
-  const current = {
-    brandModel: document.getElementById("club-brand-model").textContent || "",
-    clubType: document.getElementById("club-type").textContent || "",
-    typicalDistance: document.getElementById("club-distance").textContent || "",
-    shotUse: document.getElementById("club-use").textContent || "",
-    consistentSwing: document.getElementById("club-consistency").textContent || "",
-    swingNotes: document.getElementById("club-notes").textContent || ""
-  };
+    document.getElementById("editBtn").addEventListener("click", async () => {
+      const params = new URLSearchParams(window.location.search);
+      const clubId = params.get("club");
+      if (!clubId) return alert("Missing club id");
 
-  const updated = {
-    brandModel: prompt("Brand / Model", current.brandModel),
-    clubType: prompt("Club type", current.clubType),
-    typicalDistance: prompt("Typical distance", current.typicalDistance),
-    shotUse: prompt("Shot / use", current.shotUse),
-    consistentSwing: prompt("Consistent swing", current.consistentSwing),
-    swingNotes: prompt("Swing notes", current.swingNotes)
-  };
+      const current = {
+        brandModel: document.getElementById("club-brand-model").textContent || "",
+        clubType: document.getElementById("club-type").textContent || "",
+        typicalDistance: document.getElementById("club-distance").textContent || "",
+        shotUse: document.getElementById("club-use").textContent || "",
+        consistentSwing: document.getElementById("club-consistency").textContent || "",
+        swingNotes: document.getElementById("club-notes").textContent || ""
+      };
 
-  const res = await fetch(`${WORKER_URL}/save`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ clubId, data: updated })
-  });
+      const updated = {
+        brandModel: prompt("Brand / Model", current.brandModel),
+        clubType: prompt("Club type", current.clubType),
+        typicalDistance: prompt("Typical distance", current.typicalDistance),
+        shotUse: prompt("Shot / use", current.shotUse),
+        consistentSwing: prompt("Consistent swing", current.consistentSwing),
+        swingNotes: prompt("Swing notes", current.swingNotes)
+      };
 
-  if (!res.ok) {
-    const t = await res.text();
-    return alert("Save failed:\n" + t);
-  }
+      const res = await fetch(`${WORKER_URL}/save`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clubId, data: updated })
+      });
 
-  location.reload();
-});
-</script>
+      if (!res.ok) {
+        const t = await res.text();
+        return alert("Save failed:\n" + t);
+      }
+
+      location.reload();
+    });
+  </script>
 
 </body>
 </html>
