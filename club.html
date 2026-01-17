@@ -23,14 +23,9 @@
     </div>
   </div>
 
-  <button id="editBtn">Edit</button>
-
   <div id="footer">Smitty built</div>
 
-  <!-- keep your existing localStorage/edit logic -->
-  <script src="script.js?v=6"></script>
-
-  <!-- GitHub READ (shows same data on every phone) -->
+  <!-- GitHub READ ONLY -->
   <script>
     window.addEventListener("load", () => {
       const params = new URLSearchParams(window.location.search);
@@ -40,11 +35,11 @@
       const url = `https://smitty101.github.io/smitty-golf/data/club-${clubId}.json`;
 
       fetch(url, { cache: "no-store" })
-        .then((r) => {
-          if (!r.ok) throw new Error("Data file not found: " + url);
+        .then(r => {
+          if (!r.ok) throw new Error("Data file not found");
           return r.json();
         })
-        .then((d) => {
+        .then(d => {
           document.getElementById("club-brand-model").textContent = d.brandModel || "Not set";
           document.getElementById("club-type").textContent = d.clubType || "Not set";
           document.getElementById("club-distance").textContent = d.typicalDistance || "Not set";
@@ -52,10 +47,9 @@
           document.getElementById("club-consistency").textContent = d.consistentSwing || "Not set";
           document.getElementById("club-notes").textContent = d.swingNotes || "None";
         })
-        .catch((err) => console.error("GitHub load failed:", err));
+        .catch(err => console.error(err));
     });
   </script>
 
 </body>
 </html>
-
