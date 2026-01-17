@@ -1,91 +1,80 @@
-/* Page background (golf green) */
-body {
-  font-family: Arial, sans-serif;
-  max-width: 900px;
-  margin: 28px auto;
-  padding: 0 18px;
-  font-size: 33px;
-  font-weight: bold;
-  background: #2f6f3e;
-}
+/* NFC Golf — phone-first, responsive */
 
-/* Title */
-h1 {
-  font-size: 63px;
-  margin: 0 0 18px 0;
-  letter-spacing: 0.6px;
-  color: #ffffff;
-}
+* { box-sizing: border-box; }
 
-/* White scorecard */
-#club-info {
-  background: #ffffff;
-  border: 2px solid #1f1f1f;
-  border-radius: 16px;
-  overflow: hidden;
-  margin: 18px 0 22px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.20);
-}
-
-/* Standard rows */
-#club-info p {
+html, body {
   margin: 0;
-  padding: 24px 26px;
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid #1f1f1f;
+  padding: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.35;
 }
 
-/* Label column */
-#club-info strong {
-  width: 300px;
-  flex: 0 0 300px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 27px;
-  color: #1a1a1a;
+body {
+  padding: 14px;
 }
 
-/* Value column */
-#club-info span {
-  font-size: 42px;
-  padding-left: 3ch;
-  color: #111111;
+/* Keep content readable on desktop but not huge on phone */
+#club-info {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-/* Notes section (single large box) */
+h1 {
+  max-width: 640px;
+  margin: 0 auto 12px auto;
+  font-size: 22px;
+}
+
+p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* Notes box */
 .notes-box {
-  border-top: 2px solid #1f1f1f;
-  padding: 26px;
+  margin-top: 12px;
 }
 
 .notes-content {
-  margin-top: 16px;
-  min-height: 6em;            /* ~4+ lines of space */
-  padding: 20px;
-  border: 2px solid #1f1f1f;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid #ccc;
   border-radius: 12px;
-  font-size: 38px;
-  background: #ffffff;
+  min-height: 90px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 16px;
 }
 
 /* Edit button */
-button {
-  font-size: 39px;
-  font-weight: bold;
-  padding: 22px 34px;
-  border-radius: 16px;
-  border: 2px solid #1f1f1f;
-  background: #ffffff;
+#editBtn {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 14px auto 0 auto;
+  padding: 14px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
   cursor: pointer;
 }
 
 /* Footer */
 #footer {
-  margin-top: 24px;
-  text-align: right;
-  font-size: 24px;
-  font-weight: bold;
-  color: #ffffff;
+  max-width: 640px;
+  margin: 18px auto 0 auto;
+  opacity: 0.7;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  body { padding: 10px; }
+  h1 { font-size: 20px; }
+  p, .notes-content { font-size: 15px; }
+  #editBtn { font-size: 17px; }
 }
 
