@@ -1,20 +1,13 @@
-// NFC Golf - per-club storage + edit form (supports ?club=1 or #1)
+// NFC Golf - per-club storage + edit prompts (supports ?club=1 or #1)
+// Saves to localStorage and updates the UI instantly (no page reload)
 
 const params = new URLSearchParams(window.location.search);
 const fromQuery = params.get("club");
 const fromHash = (window.location.hash || "").replace("#", "").trim();
 
-const clubId = fromQuery || fromHash || "default";
+// Default to "1" so you never fall into "default" accidentally
+const clubId = (fromQuery || fromHash || "1").trim();
 const dataKey = "club_" + clubId;
-
-const data = JSON.parse(localStorage.getItem(dataKey)) || {
-  brandModel: "",
-  clubType: "",
-  distance: "",
-  use: "",
-  consistency: "",
-  notes: ""
-};
 
 function setText(id, value, fallback = "Not set") {
   const el = document.getElementById(id);
@@ -22,12 +15,29 @@ function setText(id, value, fallback = "Not set") {
   el.textContent = (value && String(value).trim()) ? value : fallback;
 }
 
-setText("club-brand-model", data.brandModel);
-setText("club-type", data.clubType);
-setText("club-distance", data.distance);
-setText("club-use", data.use);
-setText("club-consistency", data.consistency);
-setText("club-notes", data.notes, "None");
+function loadData() {
+  return JSON.parse(localStorage.getItem(dataKey)) || {
+    brandModel: "",
+    clubType: "",
+    distance: "",
+    use: "",
+    consistency: "",
+    notes: ""
+  };
+}
+
+function render(d) {
+  setText("club-brand-model", d.brandModel);
+  setText("club-type", d.clubType);
+  setText("club-distance", d.distance);
+  setText("club-use", d.use);
+  setText("club-consistency", d.consistency);
+  setText("club-notes", d.notes, "None");
+}
+
+// Load + render once on page load
+let data = loadData();
+render(data);
 
 const editBtn = document.getElementById("editBtn");
 if (editBtn) {
@@ -40,7 +50,12 @@ if (editBtn) {
     const notes = prompt("Swing cue / notes:", data.notes || "") ?? data.notes;
 
     const newData = { brandModel, clubType, distance, use, consistency, notes };
+
+    // Save
     localStorage.setItem(dataKey, JSON.stringify(newData));
-    location.reload();
+
+    // Update in-memory + UI instantly (no reload)
+    data = newData;
+    render(data);
   };
 }
