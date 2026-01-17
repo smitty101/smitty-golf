@@ -1,43 +1,61 @@
-<script>
-window.addEventListener("load", () => {
-  const params = new URLSearchParams(window.location.search);
-  const clubId = params.get("club");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Golf Club Info</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-  if (!clubId) {
-    console.error("No club id in URL");
-    return;
-  }
+  <h1>Golf Club Info</h1>
 
-  const url = `https://smitty101.github.io/smitty-golf/data/club-${clubId}.json`;
+  <div id="club-info">
+    <p><strong>Brand / Model:</strong> <span id="club-brand-model">Not set</span></p>
+    <p><strong>Club type:</strong> <span id="club-type">Not set</span></p>
+    <p><strong>Typical distance:</strong> <span id="club-distance">Not set</span></p>
+    <p><strong>Shot / use:</strong> <span id="club-use">Not set</span></p>
+    <p><strong>Consistent swing:</strong> <span id="club-consistency">Not set</span></p>
 
-  fetch(url, { cache: "no-store" })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("GitHub data file not found");
-      }
-      return response.json();
-    })
-    .then(data => {
-      document.getElementById("club-brand-model").textContent =
-        data.brandModel || "Not set";
+    <div class="notes-box">
+      <strong>Swing notes:</strong>
+      <div id="club-notes" class="notes-content">None</div>
+    </div>
+  </div>
 
-      document.getElementById("club-type").textContent =
-        data.clubType || "Not set";
+  <button id="editBtn">Edit</button>
 
-      document.getElementById("club-distance").textContent =
-        data.typicalDistance || "Not set";
+  <div id="footer">Smitty built</div>
 
-      document.getElementById("club-use").textContent =
-        data.shotUse || "Not set";
+  <!-- keep your existing localStorage/edit logic -->
+  <script src="script.js?v=6"></script>
 
-      document.getElementById("club-consistency").textContent =
-        data.consistentSwing || "Not set";
+  <!-- GitHub READ (shows same data on every phone) -->
+  <script>
+    window.addEventListener("load", () => {
+      const params = new URLSearchParams(window.location.search);
+      const clubId = params.get("club");
+      if (!clubId) return;
 
-      document.getElementById("club-notes").textContent =
-        data.swingNotes || "None";
-    })
-    .catch(err => {
-      console.error("GitHub load failed:", err);
+      const url = `https://smitty101.github.io/smitty-golf/data/club-${clubId}.json`;
+
+      fetch(url, { cache: "no-store" })
+        .then((r) => {
+          if (!r.ok) throw new Error("Data file not found: " + url);
+          return r.json();
+        })
+        .then((d) => {
+          document.getElementById("club-brand-model").textContent = d.brandModel || "Not set";
+          document.getElementById("club-type").textContent = d.clubType || "Not set";
+          document.getElementById("club-distance").textContent = d.typicalDistance || "Not set";
+          document.getElementById("club-use").textContent = d.shotUse || "Not set";
+          document.getElementById("club-consistency").textContent = d.consistentSwing || "Not set";
+          document.getElementById("club-notes").textContent = d.swingNotes || "None";
+        })
+        .catch((err) => console.error("GitHub load failed:", err));
     });
-});
-</script>
+  </script>
+
+</body>
+</html>
+
